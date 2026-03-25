@@ -83,37 +83,87 @@ linkwarden:
   ignoreUnauthorizedCA: false
   # -- Ignore HTTPS errors in browser
   ignoreHttpsErrors: false
+  # -- Ignore URL size limitations for extremely long URLs
+  ignoreUrlSizeLimit: false
   # -- Disable archiving links
   disablePreservation: false
   # -- Maximum buffer size for monolith archiving (in MB)
   monolithMaxBuffer: 20
-  # -- Maximum buffer size for PDF archiving (in MB)
-  pdfMaxBuffer: 20
   # -- Maximum buffer size for screenshot archiving (in MB)
   screenshotMaxBuffer: 20
   # -- Maximum buffer size for readability archiving (in MB)
   readabilityMaxBuffer: 20
   # -- Maximum buffer size for preview generation (in MB)
   previewMaxBuffer: 20
+  # -- Maximum links per user
+  maxLinksPerUser: 30000
+  # -- Maximum file buffer size in bytes
+  maxFileBuffer: ""
+  # -- Maximum number of links to import at once
+  importLimit: ""
+  # -- Maximum RSS feeds per user
+  rssSubscriptionLimitPerUser: ""
+  # -- Maximun characters indexed for text content
+  textContentLimit: 100000
+  # -- Maximum number of filters in search queries
+  searchFilterLimit: 100
+  # -- Number of links to archive in each batch
+  archiveTakeCount: 5
+  # -- Interval for RSS polling in minutes
+  rssPollingIntervalMinutes: 60
+  # -- Custom CLI options for monolith binary
+  monolithCustomOptions: ""
+  # -- Number of items to index in each batch
+  indexTakeCount: 50
+
+
   # -- The variables you need to configure to enable password recovery without the admin interfering, email verification, etc.
-  # -- If set to true, email will be enabled. Requires emailFrom and emailServer to be set.
-  emailProvider: ""
-  # -- Email from address, (ignored if existingSecret is set)
-  emailFrom: ""
-  # -- Email server (That sensitive string that starts with smtp://...)
-  emailServer: ""
-  # -- Base URL to put in email links
-  emailBaseUrl: ""
+  smtp:
+    # -- If set to true, email will be enabled. Requires emailFrom and emailServer to be set.
+    emailProvider: ""
+    # -- Email from address, (ignored if existingSecret is set)
+    emailFrom: ""
+    # -- Email server (That sensitive string that starts with smtp://...)
+    emailServer: ""
+
+  # -- playright browser configuration
+  browser:
+    # -- Proxy URL
+    proxyUrl: ""
+    # -- Username for proxy authentication
+    proxyUsername: ""
+    # -- Password for proxy authentication
+    proxyPassword: ""
+    # -- URLs to bypass proxy (seperated by coma)
+    proxyBypassUrl: ""
+
+  # -- playright browser configuration
+  meili:
+    # -- MeiliSearch host URL
+    url: ""
+    # -- MeiliSearch master key
+    masterkey: ""
+    # -- Timeout for MeiliSearch operations in ms
+    timeout: 30000
+
+  # -- PDF configuration
+  pdf:
+    # -- Top margin size for PDF
+    marginTop: ""
+    # -- Bottom margin size for PDF
+    marginBottom: ""
+    # -- Maximum buffer size for PDF archiving (in MB)
+    maxBuffer: 20
 
   # -- Additional environment variables for Linkwarden
   environment: {}
-    
+
   # -- Storage configuration
   storage:
     # -- Storage type: 's3' or 'filesystem'
     type: filesystem
     # -- Storage folder for data (required if using filesystem storage)
-    storageFolder: /data/data
+    storageFolder: /data
     # -- Persistent volume claim settings for filesystem storage
     pvc:
       # -- Enable persistent volume claim for filesystem storage
@@ -141,7 +191,33 @@ linkwarden:
       region: ""
       # -- AWS S3 force path style (for minio)
       forcePathStyle: false
-  
+
+  ## -- AI Configuration
+  ai:
+    # -- name of existing secret with environment variables required by the enabled AI providers
+    existingSecret: ""
+    # -- AI providers list
+    providers:
+      # -- This is an example of how to add a new AI provider
+      # -- Refer to linkwarden .env.sample file for more information about required environment variables for providers)
+      openai:
+        # -- whether the provider is enabled
+        enabled: false
+        # -- AI model to use
+        model: gpt-oss-120b
+        # -- AI Provider apikey to request AI provider api
+        apikey: ""
+        # -- environment variables required by the provider (ignored if existingSecret is set)
+        secrets:
+          CUSTOM_OPENAI_BASE_URL: ""
+          CUSTOM_OPENAI_NAME: ""
+    # -- Enable/Disable AI feature
+    enabled: false
+    # -- Ollama api endpoint
+    ollamaEndpointUrl: ""
+    # -- Ollama api model to use
+    ollamaModel: ""
+
   # -- Database
   # -- External postgres URL, required if using external database
   externalDatabaseUrl: ""
@@ -198,6 +274,17 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
+# This block is for setting up the httproute for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/gateway/#api-kind-httproute
+httpRoute:
+  enabled: false
+  redirectHttpToHttps: true
+  parentRefsHttp:
+    - name: gateway
+  parentRefsHttps:
+    - name: gateway
+  hostnames:
+    - chart-example.local
+
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
@@ -211,7 +298,7 @@ resources: {}
   #   memory: 128Mi
 
 # This is for setting Kubernetes Annotations to a Pod.
-# For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/ 
+# For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
 podAnnotations: {}
 # This is for setting Kubernetes Labels to a Pod.
 # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
