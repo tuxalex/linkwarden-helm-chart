@@ -23,7 +23,11 @@ spec:
             scheme: https
             statusCode: 301
     {{- else }}
-    - backendRefs:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: {{ Values.httpRoute.pathPrefix }}
+      backendRefs:
         - name: {{ include "linkwarden.fullname" $ }}
           port: {{ $.Values.service.port }}
     {{- end }}
@@ -46,7 +50,11 @@ spec:
   hostnames:
     {{- toYaml .Values.httpRoute.hostnames | nindent 4 }}
   rules:
-    - backendRefs:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: {{ Values.httpRoute.pathPrefix }}
+      backendRefs:
         - name: {{ include "linkwarden.fullname" $ }}
           port: {{ $.Values.service.port }}
 {{- end }}

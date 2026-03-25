@@ -119,14 +119,14 @@ linkwarden:
 
   # -- The variables you need to configure to enable password recovery without the admin interfering, email verification, etc.
   smtp:
-    # -- If set to true, email will be enabled. Requires emailFrom and emailServer to be set.
+    # -- If set to true, email will be enabled. Requires emailFrom and emailServer to be set (ignored if existingSecret is set).
     emailProvider: ""
-    # -- Email from address, (ignored if existingSecret is set)
+    # -- Email from address
     emailFrom: ""
     # -- Email server (That sensitive string that starts with smtp://...)
     emailServer: ""
 
-  # -- playright browser configuration
+  # -- playright browser configuration (ignored if existingSecret is set)
   browser:
     # -- Proxy URL
     proxyUrl: ""
@@ -137,7 +137,7 @@ linkwarden:
     # -- URLs to bypass proxy (seperated by coma)
     proxyBypassUrl: ""
 
-  # -- playright browser configuration
+  # -- playright browser configuration (ignored if existingSecret is set)
   meili:
     # -- MeiliSearch host URL
     url: ""
@@ -278,6 +278,7 @@ ingress:
 httpRoute:
   enabled: false
   redirectHttpToHttps: true
+  pathPrefix: /
   parentRefsHttp:
     - name: gateway
   parentRefsHttps:
