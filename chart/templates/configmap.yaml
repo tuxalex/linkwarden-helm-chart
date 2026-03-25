@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "linkwarden.fullname" . }}-env-config
+  labels:
+    {{- include "linkwarden.labels" . | nindent 4 }}
+data:
+  {{- range $key, $value := .Values.linkwarden.environment }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  # Additional Optional Settings
+  PAGINATION_TAKE_COUNT: "{{ .Values.linkwarden.paginationTakeCount }}"
+  STORAGE_FOLDER: "{{ .Values.linkwarden.storage.storageFolder }}"
+  AUTOSCROLL_TIMEOUT: "{{ .Values.linkwarden.autoscrollTimeout }}"
+  NEXT_PUBLIC_DISABLE_REGISTRATION: "{{ .Values.linkwarden.disableRegistration }}"
+  NEXT_PUBLIC_CREDENTIALS_ENABLED: "{{ .Values.linkwarden.credentialsEnabled }}"
+  DISABLE_NEW_SSO_USERS: "{{ .Values.linkwarden.disableNewSSOUsers }}"
+  RE_ARCHIVE_LIMIT: "{{ .Values.linkwarden.reArchiveLimit }}"
+  MAX_LINKS_PER_USER: "{{ .Values.linkwarden.maxLinksPerUser }}"
+  ARCHIVE_TAKE_COUNT: "{{ .Values.linkwarden.archiveTakeCount }}"
+  BROWSER_TIMEOUT: "{{ .Values.linkwarden.browserTimeout }}"
+  IGNORE_UNAUTHORIZED_CA: "{{ .Values.linkwarden.ignoreUnauthorizedCA }}"
+  IGNORE_HTTPS_ERRORS: "{{ .Values.linkwarden.ignoreHttpsErrors }}"
+  IGNORE_URL_SIZE_LIMIT: "{{ .Values.linkwarden.ignoreUrlSizeLimit }}"
+  NEXT_PUBLIC_MAX_FILE_BUFFER: "{{ .Values.linkwarden.maxFileBuffer }}"
+  MONOLITH_MAX_BUFFER: "{{ .Values.linkwarden.monolithMaxBuffer }}"
+  MONOLITH_CUSTOM_OPTIONS: "{{ .Values.linkwarden.monolithCustomOptions }}"
+  SCREENSHOT_MAX_BUFFER: "{{ .Values.linkwarden.screenshotMaxBuffer }}"
+  READABILITY_MAX_BUFFER: "{{ .Values.linkwarden.readabilityMaxBuffer }}"
+  PREVIEW_MAX_BUFFER: "{{ .Values.linkwarden.previewMaxBuffer }}"
+  IMPORT_LIMIT: "{{ .Values.linkwarden.importLimit }}"
+  PLAYWRIGHT_LAUNCH_OPTIONS_EXECUTABLE_PATH: ""  #TODO
+  PLAYWRIGHT_WS_URL: "" #TODO
+  MAX_WORKERS: "{{ .Values.linkwarden.maxWorkers }}"
+  DISABLE_PRESERVATION: "{{ .Values.linkwarden.disablePreservation }}"
+  NEXT_PUBLIC_RSS_POLLING_INTERVAL_MINUTES: "{{ .Values.linkwarden.rssPollingIntervalMinutes }}"
+  RSS_SUBSCRIPTION_LIMIT_PER_USER: "{{ .Values.linkwarden.rssSubscriptionLimitPerUser }}"
+  PDF_MARGIN_TOP: "{{ .Values.linkwarden.pdf.marginTop }}"
+  PDF_MARGIN_BOTTOM: "{{ .Values.linkwarden.pdf.marginBottom }}"
+  TEXT_CONTENT_LIMIT: "{{ .Values.linkwarden.textContentLimit }}"
+  SEARCH_FILTER_LIMIT: "{{ .Values.linkwarden.searchFilterLimit }}"
+  INDEX_TAKE_COUNT: "{{ .Values.linkwarden.indexTakeCount }}"
