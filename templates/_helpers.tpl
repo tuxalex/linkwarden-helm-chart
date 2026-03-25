@@ -77,6 +77,20 @@ Define whether any SSO provider is enabled
 {{- end -}}
 
 {{/*
+Define whether any AI provider is enabled
+*/}}
+{{- define "linkwarden.aiEnabled" -}}
+  {{- $aiEnabled := false -}}
+  {{- range $provider, $config := .Values.linkwarden.ai.providers -}}
+    {{- if $config.enabled -}}
+      {{- $aiEnabled = true -}}
+      {{- break -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $aiEnabled -}}
+{{- end -}}
+
+{{/*
 Validate auth configuration
 */}}
 {{- define "linkwarden.validateAuth" -}}

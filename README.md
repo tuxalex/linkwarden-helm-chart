@@ -79,14 +79,14 @@ If you find this chart helpful, please consider giving it a star on GitHub! ⭐ 
 1.  **Add the Helm repository (if necessary):**
     
     ```bash
-    helm repo add shivam-charts https://shivamkumar2002.github.io/helm-charts
+    helm repo add tuxalex-linkwarden https://tuxalex.github.io/linkwarden-helm-chart/
     helm repo update
     ```
 
 2.  **Install the chart:**
 
     ```bash
-    helm install linkwarden shivam-charts/linkwarden -f <values.yaml>
+    helm install linkwarden tuxalex-linkwarden/linkwarden -f <values.yaml>
     ```
     
     *Replace `<values.yaml>` with the path to your values.yaml file or create one. See the [Configuration](#configuration) section for details.*
