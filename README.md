@@ -88,7 +88,7 @@ If you find this chart helpful, please consider giving it a star on GitHub! ⭐ 
     ```bash
     helm install linkwarden tuxalex-linkwarden/linkwarden -f <values.yaml>
     ```
-    
+
     *Replace `<values.yaml>` with the path to your values.yaml file or create one. See the [Configuration](#configuration) section for details.*
 
 3.  **Access Linkwarden:**
@@ -106,89 +106,125 @@ Here's a breakdown of each section in your `values.yaml`:
 
 | Key | Description | Default Value |
 | --- | ----------- | ------------- |
-| `nameOverride` | Overrides the chart's name. | `""` |
-| `fullnameOverride` | Overrides the chart's full name for resource naming. | `""` |
-| `replicaCount` | The number of Linkwarden application replicas. | `1` |
-| `image.repository` | The container image repository. | `ghcr.io/linkwarden/linkwarden` |
-| `image.pullPolicy` | The policy for pulling images (`IfNotPresent`, `Always`, `Never`). | `IfNotPresent` |
-| `image.tag` | Overrides the image tag. Defaults to chart app version if left empty. | `""` |
-| `imagePullSecrets` | Array of secrets used to pull images from private repositories. | `[]` |
-| `serviceAccount.create` | Whether to create a service account. | `true` |
-| `serviceAccount.automount` | Automatically mount the service account's API credentials. | `true` |
-| `serviceAccount.annotations` | Annotations for the service account. | `{}` |
-| `serviceAccount.name` | The name of the service account. If not set, one will be generated. | `""` |
-| `service.type` | The service type (`ClusterIP`, `NodePort`, `LoadBalancer`). | `ClusterIP` |
-| `service.port` | The service port exposed by the Linkwarden application. | `3000` |
-| `livenessProbe.path` | The path to check for liveness. | `/` |
-| `livenessProbe.port` | The port to check for liveness. | `http` |
-| `livenessProbe.initialDelaySeconds` | Delay before the first liveness probe. | `30` |
-| `livenessProbe.periodSeconds` | Frequency of the liveness probe. | `30` |
-| `readinessProbe.path` | The path to check for readiness. | `/` |
-| `readinessProbe.port` | The port to check for readiness. | `http` |
-| `readinessProbe.initialDelaySeconds` | Delay before the first readiness probe. | `30` |
-| `readinessProbe.periodSeconds` | Frequency of the readiness probe. | `30` |
-| `linkwarden.existingSecret` | If set, all other Linkwarden environment secrets will be ignored and taken from this secret. | `""` |
-| `linkwarden.nextAuthUrl` | The URL of the NextAuth API. | `http://localhost:3000/api/v1/auth` |
-| `linkwarden.nextAuthSecret` | A secret used for NextAuth. You can generate with `openssl rand -base64 32`. | `""` |
-| `linkwarden.disableRegistration` | Disable user registration. | `false` |
-| `linkwarden.credentialsEnabled` | Enable login with username and password. | `true` |
-| `linkwarden.disableNewSSOUsers` | Disable new user login with SSO. | `false` |
-| `linkwarden.paginationTakeCount` | Number of Links to fetch on the webpage. | `50` |
-| `linkwarden.maxWorkers` | Max number of playwright workers. | `5` |
-| `linkwarden.reArchiveLimit` | How often a user can trigger a new archive for each link (in minutes). | `5` |
-| `linkwarden.autoScrollTimeout` | The amount of time to wait for the website to be archived (in seconds). | `30` |
-| `linkwarden.browserTimeout` | Browser timeout for archiving in miliseconds. | `30000` |
-| `linkwarden.ignoreUnauthorizedCA` | Ignore certificate verification. | `false` |
-| `linkwarden.ignoreHttpsErrors` | Ignore HTTPS errors. | `false` |
-| `linkwarden.disablePreservation` | Disable archiving links. | `false` |
-| `linkwarden.monolithMaxBuffer` | Maximum buffer size for monolith archiving (in MB). | `20` |
-| `linkwarden.pdfMaxBuffer` | Maximum buffer size for PDF archiving (in MB). | `20` |
-| `linkwarden.screenshotMaxBuffer` | Maximum buffer size for screenshot archiving (in MB). | `20` |
-| `linkwarden.readabilityMaxBuffer` | Maximum buffer size for readability archiving (in MB). | `20` |
-| `linkwarden.previewMaxBuffer` | Maximum buffer size for preview generation (in MB). | `20` |
-| `linkwarden.emailProvider` | Enable email. Must set `emailFrom` and `emailServer`. | `""` |
-| `linkwarden.emailFrom` | Email from address. Ignored if `existingSecret` is set. | `""` |
-| `linkwarden.emailServer` | Email server configuration. | `""` |
-| `linkwarden.emailBaseUrl` | Base URL for links in emails. | `""` |
-| `linkwarden.environment` | Additional environment variables for Linkwarden. | `{}` |
-| `linkwarden.storage.type` | Storage type: `s3` or `filesystem`. | `filesystem` |
-| `linkwarden.storage.storageFolder` | Storage folder if using `filesystem`. | `/data/data` |
-| `linkwarden.storage.pvc.enabled` | Whether to create a Persistent Volume Claim for filesystem storage. | `true` |
-| `linkwarden.storage.pvc.existingClaim` | If you are providing an existing PVC, add its name here. | `""` |
-| `linkwarden.storage.pvc.storageClass` | Storage class for the Persistent Volume Claim. | `""` |
-| `linkwarden.storage.pvc.accessModes` | Access modes for the Persistent Volume Claim. | `["ReadWriteOnce"]` |
-| `linkwarden.storage.pvc.size` | Size of the persistent volume. | `5Gi` |
-| `linkwarden.storage.s3.accessKey` | AWS S3 access key. | `""` |
-| `linkwarden.storage.s3.secretKey` | AWS S3 secret key. | `""` |
-| `linkwarden.storage.s3.endpoint` | AWS S3 endpoint. | `""` |
-| `linkwarden.storage.s3.bucketName` | AWS S3 bucket name. | `""` |
-| `linkwarden.storage.s3.region` | AWS S3 region. | `""` |
-| `linkwarden.storage.s3.forcePathStyle` | AWS S3 force path style (for Minio). | `false` |
-| `linkwarden.externalDatabaseUrl` | URL to an external PostgreSQL database (Optional). | `""` |
-| `linkwarden.sso.existingSecret` | Name of the secret holding SSO environment variables. | `""` |
-| `linkwarden.sso.providers` | A map of SSO providers and their configurations. | `{}` |
-| `postgresql.enabled` | Enables the integrated CNPG PostgreSQL database. | `true` |
-| `postgresql.cluster.instances` | Number of PostgreSQL instances. | `1` |
-| `postgresql.cluster.storage.size` | Size of the persistent volume for PostgreSQL. | `2Gi` |
-| `postgresql.cluster.storage.storageClass` | Storage class for the persistent volume. | `""` |
-| `ingress.enabled` | Enables or disables ingress. | `false` |
-| `ingress.className` | Ingress class name. | `""` |
-| `ingress.annotations` | Annotations for ingress. | `{}` |
-| `ingress.hosts` | List of host rules. | `[]` |
-| `ingress.tls` | List of TLS configurations. | `[]` |
-| `resources` | Resource limits and requests for the Linkwarden container. | `{}` |
-| `podAnnotations` | Annotations to add to the Linkwarden pod. | `{}` |
-| `podLabels` | Labels to add to the Linkwarden pod. | `{}` |
-| `autoscaling.enabled` | Enables horizontal pod autoscaling. | `false` |
-| `autoscaling.minReplicas` | Minimum number of replicas. | `1` |
-| `autoscaling.maxReplicas` | Maximum number of replicas. | `100` |
-| `autoscaling.targetCPUUtilizationPercentage` | Target CPU utilization for autoscaling. | `80` |
-| `podSecurityContext` | Pod Security Context settings. | `{}` |
-| `containerSecurityContext` | Container Security Context settings. | `{}` |
-| `nodeSelector` | Node labels to select for scheduling pods. | `{}` |
-| `tolerations` | Tolerations for scheduling pods. | `[]` |
-| `affinity` | Affinity rules for scheduling pods. | `{}` |
-
+| `nameOverride` | Override the chart name | `""` |
+| `fullnameOverride` | Override the full release name | `""` |
+| `replicaCount` | Number of pod replicas | `1` |
+| `image.repository` | Container image repository | `ghcr.io/linkwarden/linkwarden` |
+| `image.pullPolicy` | Image pull policy | `IfNotPresent` |
+| `image.tag` | Image tag (defaults to chart `appVersion`) | `""` |
+| `imagePullSecrets` | Secrets for pulling from private registries | `[]` |
+| `serviceAccount.create` | Create a ServiceAccount | `true` |
+| `serviceAccount.automount` | Auto‑mount ServiceAccount token | `true` |
+| `serviceAccount.annotations` | Annotations for the ServiceAccount | `{}` |
+| `serviceAccount.name` | Name of the ServiceAccount (generated if empty) | `""` |
+| `service.type` | Service type | `ClusterIP` |
+| `service.port` | Service port | `3000` |
+| `livenessProbe.httpGet.path` | Liveness probe HTTP path | `/` |
+| `livenessProbe.httpGet.port` | Liveness probe port | `http` |
+| `livenessProbe.initialDelaySeconds` | Initial delay before first check | `30` |
+| `livenessProbe.periodSeconds` | Period between checks | `30` |
+| `readinessProbe.httpGet.path` | Readiness probe HTTP path | `/` |
+| `readinessProbe.httpGet.port` | Readiness probe port | `http` |
+| `readinessProbe.initialDelaySeconds` | Initial delay | `30` |
+| `readinessProbe.periodSeconds` | Period | `30` |
+| `linkwarden.existingSecret` | Existing secret with Linkwarden env vars | `""` |
+| `linkwarden.nextAuthUrl` | NextAuth URL | `"http://localhost:3000/api/v1/auth"` |
+| `linkwarden.nextAuthSecret` | NextAuth secret | `""` |
+| `linkwarden.disableRegistration` | Disable user registration | `false` |
+| `linkwarden.credentialsEnabled` | Enable username/password login | `true` |
+| `linkwarden.disableNewSSOUsers` | Prevent new SSO users from logging in | `false` |
+| `linkwarden.paginationTakeCount` | Links fetched per page | `50` |
+| `linkwarden.maxWorkers` | Max Playwright workers | `5` |
+| `linkwarden.reArchiveLimit` | Re‑archive cooldown (minutes) | `5` |
+| `linkwarden.autoScrollTimeout` | Auto‑scroll timeout (seconds) | `30` |
+| `linkwarden.browserTimeout` | Browser timeout (ms) | `30000` |
+| `linkwarden.ignoreUnauthorizedCA` | Skip TLS verification | `false` |
+| `linkwarden.ignoreHttpsErrors` | Ignore HTTPS errors | `false` |
+| `linkwarden.ignoreUrlSizeLimit` | Allow extremely long URLs | `false` |
+| `linkwarden.disablePreservation` | Turn off archiving | `false` |
+| `linkwarden.monolithMaxBuffer` | Monolith buffer size (MB) | `20` |
+| `linkwarden.screenshotMaxBuffer` | Screenshot buffer size (MB) | `20` |
+| `linkwarden.readabilityMaxBuffer` | Readability buffer size (MB) | `20` |
+| `linkwarden.previewMaxBuffer` | Preview buffer size (MB) | `20` |
+| `linkwarden.maxLinksPerUser` | Max links per user | `30000` |
+| `linkwarden.maxFileBuffer` | Max file buffer (bytes) | `""` |
+| `linkwarden.importLimit` | Max links per import | `""` |
+| `linkwarden.rssSubscriptionLimitPerUser` | Max RSS feeds per user | `""` |
+| `linkwarden.textContentLimit` | Max indexed characters | `100000` |
+| `linkwarden.searchFilterLimit` | Max search filters | `100` |
+| `linkwarden.archiveTakeCount` | Links archived per batch | `5` |
+| `linkwarden.rssPollingIntervalMinutes` | RSS poll interval (minutes) | `60` |
+| `linkwarden.monolithCustomOptions` | Custom CLI options for monolith | `""` |
+| `linkwarden.indexTakeCount` | Items indexed per batch | `50` |
+| `linkwarden.smtp.emailProvider` | Enable email | `""` |
+| `linkwarden.smtp.emailFrom` | Email “from” address | `""` |
+| `linkwarden.smtp.emailServer` | SMTP server URL | `""` |
+| `linkwarden.browser.proxyUrl` | Proxy URL for Playwright | `""` |
+| `linkwarden.browser.proxyUsername` | Proxy username | `""` |
+| `linkwarden.browser.proxyPassword` | Proxy password | `""` |
+| `linkwarden.browser.proxyBypassUrl` | URLs to bypass proxy (comma‑separated) | `""` |
+| `linkwarden.meili.url` | MeiliSearch host URL | `""` |
+| `linkwarden.meili.masterkey` | MeiliSearch master key | `""` |
+| `linkwarden.meili.timeout` | MeiliSearch timeout (ms) | `30000` |
+| `linkwarden.pdf.marginTop` | PDF top margin | `""` |
+| `linkwarden.pdf.marginBottom` | PDF bottom margin | `""` |
+| `linkwarden.pdf.maxBuffer` | PDF buffer size (MB) | `20` |
+| `linkwarden.environment` | Additional env vars | `{}` |
+| `linkwarden.storage.type` | Storage backend | `filesystem` |
+| `linkwarden.storage.storageFolder` | Folder for filesystem storage | `/data` |
+| `linkwarden.storage.pvc.enabled` | Enable PVC for filesystem | `true` |
+| `linkwarden.storage.pvc.existingClaim` | Existing PVC name | `""` |
+| `linkwarden.storage.pvc.storageClass` | StorageClass for PVC | `""` |
+| `linkwarden.storage.pvc.accessModes` | Access modes | `["ReadWriteOnce"]` |
+| `linkwarden.storage.pvc.size` | PVC size | `5Gi` |
+| `linkwarden.storage.s3.accessKey` | S3 access key | `""` |
+| `linkwarden.storage.s3.secretKey` | S3 secret key | `""` |
+| `linkwarden.storage.s3.endpoint` | S3 endpoint URL | `""` |
+| `linkwarden.storage.s3.bucketName` | S3 bucket name | `""` |
+| `linkwarden.storage.s3.region` | S3 region | `""` |
+| `linkwarden.storage.s3.forcePathStyle` | Force path‑style URLs | `false` |
+| `linkwarden.ai.existingSecret` | Secret with AI env vars | `""` |
+| `linkwarden.ai.providers.openai.enabled` | Enable OpenAI provider | `false` |
+| `linkwarden.ai.providers.openai.model` | Model to use | `gpt-oss-120b` |
+| `linkwarden.ai.providers.openai.apikey` | API key for OpenAI | `""` |
+| `linkwarden.ai.providers.openai.secrets.CUSTOM_OPENAI_BASE_URL` | Custom base URL | `""` |
+| `linkwarden.ai.providers.openai.secrets.CUSTOM_OPENAI_NAME` | Custom provider name | `""` |
+| `linkwarden.externalDatabaseUrl` | External PostgreSQL connection URL | `""` |
+| `linkwarden.sso.existingSecret` | Secret with SSO env vars | `""` |
+| `linkwarden.sso.providers.google.enabled` | Enable Google SSO | `false` |
+| `linkwarden.sso.providers.google.customName` | Display name for Google provider | `"Google"` |
+| `linkwarden.sso.providers.google.secrets.GOOGLE_CLIENT_ID` | Google OAuth client ID | `""` |
+| `linkwarden.sso.providers.google.secrets.GOOGLE_CLIENT_SECRET` | Google OAuth client secret | `""` |
+| `postgresql.enabled` | Deploy integrated CNPG PostgreSQL | `true` |
+| `postgresql.cluster.instances` | Number of PostgreSQL instances | `1` |
+| `postgresql.cluster.storage.size` | PVC size for PostgreSQL | `2Gi` |
+| `postgresql.cluster.storage.storageClass` | StorageClass for PostgreSQL PVC | `""` |
+| `ingress.enabled` | Enable Ingress | `false` |
+| `ingress.className` | Ingress class name | `""` |
+| `ingress.annotations` | Ingress annotations | `{}` |
+| `ingress.hosts[].host` | Hostname for Ingress | `chart-example.local` |
+| `ingress.hosts[].paths[].path` | Path for Ingress rule | `/` |
+| `ingress.hosts[].paths[].pathType` | Path type | `ImplementationSpecific` |
+| `ingress.tls[]` | TLS configuration | `[]` |
+| `httpRoute.enabled` | Enable HTTPRoute | `false` |
+| `httpRoute.redirectHttpToHttps` | Auto‑redirect HTTP to HTTPS | `true` |
+| `httpRoute.pathPrefix` | Base path prefix | `/` |
+| `httpRoute.parentRefsHttp[]` | Parent reference for HTTP traffic | `[{ name: "gateway" }]` |
+| `httpRoute.parentRefsHttps[]` | Parent reference for HTTPS traffic | `[{ name: "gateway" }]` |
+| `httpRoute.hostnames[]` | Hostnames for HTTPRoute | `["chart-example.local"]` |
+| `resources` | Pod resource limits/requests | `{}` |
+| `podAnnotations` | Annotations applied to the pod | `{}` |
+| `podLabels` | Labels applied to the pod | `{}` |
+| `autoscaling.enabled` | Enable Horizontal Pod Autoscaler | `false` |
+| `autoscaling.minReplicas` | Minimum replica count | `1` |
+| `autoscaling.maxReplicas` | Maximum replica count | `100` |
+| `autoscaling.targetCPUUtilizationPercentage` | CPU target for scaling | `80` |
+| `podSecurityContext` | Security context for the pod | `{}` |
+| `containerSecurityContext` | Security context for the container | `{}` |
+| `nodeSelector` | Node selector constraints | `{}` |
+| `tolerations` | Tolerations for pod scheduling | `[]` |
+| `affinity` | Affinity rules | `{}` |
+```
 
 ### CNPG PostgreSQL Database 🐘
 
