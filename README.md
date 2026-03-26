@@ -224,7 +224,6 @@ Here's a breakdown of each section in your `values.yaml`:
 | `nodeSelector` | Node selector constraints | `{}` |
 | `tolerations` | Tolerations for pod scheduling | `[]` |
 | `affinity` | Affinity rules | `{}` |
-```
 
 ### CNPG PostgreSQL Database 🐘
 
