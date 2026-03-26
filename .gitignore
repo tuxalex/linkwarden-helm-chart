@@ -1,4 +1,6 @@
-charts/
+*.tar
+*.tar.gz
+*.gz
 .DS_Store
 # Common backup files
 *.swp

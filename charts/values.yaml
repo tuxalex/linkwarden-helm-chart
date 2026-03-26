@@ -211,12 +211,6 @@ linkwarden:
         secrets:
           CUSTOM_OPENAI_BASE_URL: ""
           CUSTOM_OPENAI_NAME: ""
-    # -- Enable/Disable AI feature
-    enabled: false
-    # -- Ollama api endpoint
-    ollamaEndpointUrl: ""
-    # -- Ollama api model to use
-    ollamaModel: ""
 
   # -- Database
   # -- External postgres URL, required if using external database
