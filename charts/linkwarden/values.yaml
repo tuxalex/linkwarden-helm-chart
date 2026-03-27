@@ -2,8 +2,9 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-# This is to override the chart name.
+# -- Override the name of the chart
 nameOverride: ""
+# -- Override the full name of the chart
 fullnameOverride: ""
 
 # This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
@@ -126,7 +127,7 @@ linkwarden:
     # -- Email server (That sensitive string that starts with smtp://...)
     emailServer: ""
 
-  # -- playright browser configuration (ignored if existingSecret is set)
+  # -- Playright browser configuration (ignored if existingSecret is set)
   browser:
     # -- Proxy URL
     proxyUrl: ""
@@ -137,7 +138,7 @@ linkwarden:
     # -- URLs to bypass proxy (seperated by coma)
     proxyBypassUrl: ""
 
-  # -- playright browser configuration (ignored if existingSecret is set)
+  # -- Meili search configuration (ignored if existingSecret is set)
   meili:
     # -- MeiliSearch host URL
     url: ""
@@ -192,7 +193,7 @@ linkwarden:
       # -- AWS S3 force path style (for minio)
       forcePathStyle: false
 
-  ## -- AI Configuration
+  # -- AI provider configuration (optional)
   ai:
     # -- name of existing secret with environment variables required by the enabled AI providers
     existingSecret: ""
