@@ -254,8 +254,8 @@ postgresql:
     postgresql:
       # -- PostgreSQL Host Based Authentication rules (lines to be appended to the pg_hba.conf file)
       pg_hba:
-        - host all all 10.42.0.0/16 trust
-        - host all all 10.43.0.0/16 trust
+        - host all all 10.96.0.0/12 trust
+        - host all all 10.244.0.0/16 trust
     # -- BootstrapInitDB is the configuration of the bootstrap process when initdb is used.
     initdb:
       # -- The database name for linkwarden
