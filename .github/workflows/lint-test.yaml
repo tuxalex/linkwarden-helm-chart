@@ -49,6 +49,7 @@ jobs:
           helm repo add cnpg https://cloudnative-pg.github.io/charts
           helm install cnpg --namespace cnpg-system --create-namespace --wait-for-jobs --wait=watcher cnpg/cloudnative-pg
           kubectl get pods --namespace cnpg-system
+          kubectl get sc
 
       - name: Run chart-testing (install)
         if: steps.list-changed.outputs.changed == 'true'
