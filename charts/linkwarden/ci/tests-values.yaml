@@ -163,7 +163,7 @@ linkwarden:
     # -- Storage type: 's3' or 'filesystem'
     type: filesystem
     # -- Storage folder for data (required if using filesystem storage)
-    storageFolder: /data
+    storageFolder: /data/data
     # -- Persistent volume claim settings for filesystem storage
     pvc:
       # -- Enable persistent volume claim for filesystem storage
@@ -171,7 +171,7 @@ linkwarden:
       # -- Existing persistent volume claim for filesystem storage
       existingClaim: ""
       # -- Storage class for filesystem storage
-      storageClass: standard
+      storageClass: ""
       # -- Access modes for filesystem storage
       accessModes:
         - ReadWriteOnce
@@ -247,7 +247,7 @@ postgresql:
       # -- Size of the persistent volume claim for PostgreSQL
       size: 2Gi
       # -- Storage class for PostgreSQL
-      storageClass: standard
+      storageClass: ""
   # Additional configs
   # For more information, see official documentation at https://github.com/cloudnative-pg/charts/tree/main/charts/cluster
 

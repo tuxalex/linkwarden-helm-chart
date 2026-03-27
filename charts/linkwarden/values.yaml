@@ -164,7 +164,7 @@ linkwarden:
     # -- Storage type: 's3' or 'filesystem'
     type: filesystem
     # -- Storage folder for data (required if using filesystem storage)
-    storageFolder: /data
+    storageFolder: /data/data
     # -- Persistent volume claim settings for filesystem storage
     pvc:
       # -- Enable persistent volume claim for filesystem storage
