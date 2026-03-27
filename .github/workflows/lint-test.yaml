@@ -46,5 +46,5 @@ jobs:
       - name: Run chart-testing (install)
         if: steps.list-changed.outputs.changed == 'true'
         run: |
-          kubectl create -k "https://github.com/cloudnative-pg/cloudnative-pg/config/helm/?timeout=120&ref=v1.28.1"
+          kubectl apply --server-side -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/release-1.28/releases/cnpg-1.28.1.yaml
           ct install --config .ct-config.yaml --target-branch ${{ github.event.repository.default_branch }}
