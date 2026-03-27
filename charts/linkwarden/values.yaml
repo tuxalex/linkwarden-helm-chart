@@ -234,11 +234,11 @@ linkwarden:
           GOOGLE_CLIENT_ID: ""
           GOOGLE_CLIENT_SECRET: ""
 
-# -- CNPG PostgreSQL database configuration
+# This block is for setting up the CNPG PostgreSQL database
 postgresql:
   # -- Enable the integrated PostgreSQL database (using the CNPG Cluster Helm chart)
   enabled: true
-  # -- PostgreSQL cluster name
+  # -- CNPG cluster resource configuration
   cluster:
     # -- Number of PostgreSQL instances
     instances: 1
@@ -248,6 +248,24 @@ postgresql:
       size: 2Gi
       # -- Storage class for PostgreSQL
       storageClass: ""
+    # -- Disable/Enable Pods Disprution Budget (need to be disable for one instance)
+    enablePDB: false
+    # -- PostgreSQL server configuration
+    postgresql:
+      # -- PostgreSQL Host Based Authentication rules (lines to be appended to the pg_hba.conf file)
+      pg_hba:
+        - host all all 10.42.0.0/16 trust
+        - host all all 10.43.0.0/16 trust
+    # -- BootstrapInitDB is the configuration of the bootstrap process when initdb is used.
+    initdb:
+      # -- The database name for linkwarden
+      database: app
+      # -- The database owner for linkwarden
+      owner: linkwarden
+      # -- Name of the secret containing the initial credentials for the owner of the user database.
+      # If empty a new secret will be created from scratch
+      secret:
+        name: ""
   # Additional configs
   # For more information, see official documentation at https://github.com/cloudnative-pg/charts/tree/main/charts/cluster
 
