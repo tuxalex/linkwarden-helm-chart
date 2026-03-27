@@ -1,6 +1,3 @@
-*.tar
-*.tar.gz
-*.gz
 .DS_Store
 # Common backup files
 *.swp
@@ -13,3 +10,7 @@
 .idea/
 *.tmproj
 .vscode/
+*.tgz
+*.tar
+*.gz
+charts/**/charts

@@ -62,9 +62,9 @@ linkwarden:
   # -- NextAuth URL
   nextAuthUrl: "http://localhost:3000/api/v1/auth"
   # -- NextAuth secret (Generate a random string using `openssl rand -base64 32`)
-  nextAuthSecret: ""
+  nextAuthSecret: "EHiOZoNqeeGAqI2A259M5mI6oE9dDcA6OhUrVQabPKc="
   # -- If set to true, registration will be disabled.
-  disableRegistration: false
+  disableRegistration: true
   # -- If set to true, users will be able to login with username and password.
   credentialsEnabled: true
   # -- If set to true, new users will not be able to login with SSO.
