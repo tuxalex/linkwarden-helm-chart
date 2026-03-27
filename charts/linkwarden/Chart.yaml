@@ -34,9 +34,11 @@ home: https://github.com/linkwarden/linkwarden
 sources:
   - https://github.com/linkwarden/linkwarden
   - https://github.com/ShivamKumar2002/linkwarden-helm-chart
+  - https://github.com/tuxalex/linkwarden-helm-chart
+icon: https://docs.linkwarden.app/img/logo.png
 maintainers:
-  - name: Shivam Kumar
-    url: https://github.com/ShivamKumar2002
+  - name: tuxalex
+    url: https://github.com/tuxalex/linkwarden-helm-chart
 dependencies:
   - name: cluster
     version: 0.6.0

@@ -36,12 +36,21 @@ jobs:
 
       - name: Run chart-testing (lint)
         if: steps.list-changed.outputs.changed == 'true'
-        run: ct lint --target-branch ${{ github.event.repository.default_branch }}
+        run: |
+          ct lint --config .ct-config.yaml --target-branch ${{ github.event.repository.default_branch }}
 
       - name: Create kind cluster
         if: steps.list-changed.outputs.changed == 'true'
         uses: helm/kind-action@v1.12.0
 
+      - name: Deploy cnpg operator (install)
+        if: steps.list-changed.outputs.changed == 'true'
+        run: |
+          helm repo add cnpg https://cloudnative-pg.github.io/charts
+          helm install cnpg --namespace cnpg-system --create-namespace --wait-for-jobs --wait=watcher cnpg/cloudnative-pg
+          kubectl get pods --namespace cnpg-system
+
       - name: Run chart-testing (install)
         if: steps.list-changed.outputs.changed == 'true'
-        run: ct install --target-branch ${{ github.event.repository.default_branch }}
+        run: |
+          ct install --config .ct-config.yaml --target-branch ${{ github.event.repository.default_branch }}

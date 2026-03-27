@@ -1,0 +1,325 @@
+# Default values for linkwarden.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# This is to override the chart name.
+nameOverride: ""
+fullnameOverride: ""
+
+# This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
+replicaCount: 1
+
+# This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
+image:
+  repository: ghcr.io/linkwarden/linkwarden
+  # This sets the pull policy for images.
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+# This is for the secretes for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+imagePullSecrets: []
+
+# This section builds out the service account more information can be found here: https://kubernetes.io/docs/concepts/security/service-accounts/
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Automatically mount a ServiceAccount's API credentials?
+  automount: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+# This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
+service:
+  # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+  type: ClusterIP
+  # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
+  port: 3000
+
+# This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+  initialDelaySeconds: 30
+  periodSeconds: 30
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
+  initialDelaySeconds: 30
+  periodSeconds: 30
+
+# -- Linkwarden Configuration
+linkwarden:
+  # -- Existing secret with environment variables required by Linkwarden
+  # -- If set, secrets in values will be ignored
+  existingSecret: ""
+  # -- Linkwarden application configuration
+  # -- NextAuth URL
+  nextAuthUrl: "http://localhost:3000/api/v1/auth"
+  # -- NextAuth secret (Generate a random string using `openssl rand -base64 32`)
+  nextAuthSecret: "EHiOZoNqeeGAqI2A259M5mI6oE9dDcA6OhUrVQabPKc="
+  # -- If set to true, registration will be disabled.
+  disableRegistration: true
+  # -- If set to true, users will be able to login with username and password.
+  credentialsEnabled: true
+  # -- If set to true, new users will not be able to login with SSO.
+  disableNewSSOUsers: false
+  # -- The numbers of Links to fetch every time you reach the bottom of the webpage
+  paginationTakeCount: 50
+  # -- Max number of playwright workers
+  maxWorkers: 5
+  # -- Adjusts how often a user can trigger a new archive for each link (in minutes).
+  reArchiveLimit: 5
+  # -- The amount of time to wait for the website to be archived (in seconds).
+  autoScrollTimeout: 30
+  # -- Browser timeout for archiving
+  browserTimeout: 30000
+  # -- Ignore certificate verification while fetching links
+  ignoreUnauthorizedCA: false
+  # -- Ignore HTTPS errors in browser
+  ignoreHttpsErrors: false
+  # -- Ignore URL size limitations for extremely long URLs
+  ignoreUrlSizeLimit: false
+  # -- Disable archiving links
+  disablePreservation: false
+  # -- Maximum buffer size for monolith archiving (in MB)
+  monolithMaxBuffer: 20
+  # -- Maximum buffer size for screenshot archiving (in MB)
+  screenshotMaxBuffer: 20
+  # -- Maximum buffer size for readability archiving (in MB)
+  readabilityMaxBuffer: 20
+  # -- Maximum buffer size for preview generation (in MB)
+  previewMaxBuffer: 20
+  # -- Maximum links per user
+  maxLinksPerUser: 30000
+  # -- Maximum file buffer size in bytes
+  maxFileBuffer: ""
+  # -- Maximum number of links to import at once
+  importLimit: ""
+  # -- Maximum RSS feeds per user
+  rssSubscriptionLimitPerUser: ""
+  # -- Maximun characters indexed for text content
+  textContentLimit: 100000
+  # -- Maximum number of filters in search queries
+  searchFilterLimit: 100
+  # -- Number of links to archive in each batch
+  archiveTakeCount: 5
+  # -- Interval for RSS polling in minutes
+  rssPollingIntervalMinutes: 60
+  # -- Custom CLI options for monolith binary
+  monolithCustomOptions: ""
+  # -- Number of items to index in each batch
+  indexTakeCount: 50
+
+
+  # -- The variables you need to configure to enable password recovery without the admin interfering, email verification, etc.
+  smtp:
+    # -- If set to true, email will be enabled. Requires emailFrom and emailServer to be set (ignored if existingSecret is set).
+    emailProvider: ""
+    # -- Email from address
+    emailFrom: ""
+    # -- Email server (That sensitive string that starts with smtp://...)
+    emailServer: ""
+
+  # -- playright browser configuration (ignored if existingSecret is set)
+  browser:
+    # -- Proxy URL
+    proxyUrl: ""
+    # -- Username for proxy authentication
+    proxyUsername: ""
+    # -- Password for proxy authentication
+    proxyPassword: ""
+    # -- URLs to bypass proxy (seperated by coma)
+    proxyBypassUrl: ""
+
+  # -- playright browser configuration (ignored if existingSecret is set)
+  meili:
+    # -- MeiliSearch host URL
+    url: ""
+    # -- MeiliSearch master key
+    masterkey: ""
+    # -- Timeout for MeiliSearch operations in ms
+    timeout: 30000
+
+  # -- PDF configuration
+  pdf:
+    # -- Top margin size for PDF
+    marginTop: ""
+    # -- Bottom margin size for PDF
+    marginBottom: ""
+    # -- Maximum buffer size for PDF archiving (in MB)
+    maxBuffer: 20
+
+  # -- Additional environment variables for Linkwarden
+  environment: {}
+
+  # -- Storage configuration
+  storage:
+    # -- Storage type: 's3' or 'filesystem'
+    type: filesystem
+    # -- Storage folder for data (required if using filesystem storage)
+    storageFolder: /data/data
+    # -- Persistent volume claim settings for filesystem storage
+    pvc:
+      # -- Enable persistent volume claim for filesystem storage
+      enabled: true
+      # -- Existing persistent volume claim for filesystem storage
+      existingClaim: ""
+      # -- Storage class for filesystem storage
+      storageClass: ""
+      # -- Access modes for filesystem storage
+      accessModes:
+        - ReadWriteOnce
+      # -- Size of the persistent volume claim for filesystem storage
+      size: 5Gi
+    # -- S3 storage settings
+    s3:
+      # -- AWS S3 access key
+      accessKey: ""
+      # -- AWS S3 secret key
+      secretKey: ""
+      # -- AWS S3 endpoint
+      endpoint: ""
+      # -- AWS S3 bucket name
+      bucketName: ""
+      # -- AWS S3 region
+      region: ""
+      # -- AWS S3 force path style (for minio)
+      forcePathStyle: false
+
+  ## -- AI Configuration
+  ai:
+    # -- name of existing secret with environment variables required by the enabled AI providers
+    existingSecret: ""
+    # -- AI providers list
+    providers:
+      # -- This is an example of how to add a new AI provider
+      # -- Refer to linkwarden .env.sample file for more information about required environment variables for providers)
+      openai:
+        # -- whether the provider is enabled
+        enabled: false
+        # -- AI model to use
+        model: gpt-oss-120b
+        # -- AI Provider apikey to request AI provider api
+        apikey: ""
+        # -- environment variables required by the provider (ignored if existingSecret is set)
+        secrets:
+          CUSTOM_OPENAI_BASE_URL: ""
+          CUSTOM_OPENAI_NAME: ""
+
+  # -- Database
+  # -- External postgres URL, required if using external database
+  externalDatabaseUrl: ""
+
+  # -- SSO settings
+  sso:
+    # -- name of existing secret with environment variables required by the enabled sso providers
+    existingSecret: ""
+    # -- SSO providers list
+    providers:
+      # -- This is an example of how to add a new SSO provider
+      # -- Refer to NextAuth.js documentation for more information about required environment variables for providers
+      google:
+        # -- whether the provider is enabled
+        enabled: false
+        # -- custom name of the provider
+        customName: "Google"
+        # -- environment variables required by the provider (ignored if existingSecret is set)
+        secrets:
+          GOOGLE_CLIENT_ID: ""
+          GOOGLE_CLIENT_SECRET: ""
+
+# -- CNPG PostgreSQL database configuration
+postgresql:
+  # -- Enable the integrated PostgreSQL database (using the CNPG Cluster Helm chart)
+  enabled: true
+  # -- PostgreSQL cluster name
+  cluster:
+    # -- Number of PostgreSQL instances
+    instances: 1
+    # -- Storage configuration for PostgreSQL
+    storage:
+      # -- Size of the persistent volume claim for PostgreSQL
+      size: 2Gi
+      # -- Storage class for PostgreSQL
+      storageClass: ""
+  # Additional configs
+  # For more information, see official documentation at https://github.com/cloudnative-pg/charts/tree/main/charts/cluster
+
+# This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+# This block is for setting up the httproute for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/gateway/#api-kind-httproute
+httpRoute:
+  enabled: false
+  redirectHttpToHttps: true
+  pathPrefix: /
+  parentRefsHttp:
+    - name: gateway
+  parentRefsHttps:
+    - name: gateway
+  hostnames:
+    - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+# This is for setting Kubernetes Annotations to a Pod.
+# For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
+podAnnotations: {}
+# This is for setting Kubernetes Labels to a Pod.
+# For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+podLabels: {}
+
+# This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+containerSecurityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
