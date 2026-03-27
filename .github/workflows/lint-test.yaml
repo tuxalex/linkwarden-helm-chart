@@ -53,4 +53,4 @@ jobs:
       - name: Run chart-testing (install)
         if: steps.list-changed.outputs.changed == 'true'
         run: |
-          ct install --config .ct-config.yaml --target-branch ${{ github.event.repository.default_branch }} --create-namespace --namespace linkwarden
+          ct install --config .ct-config.yaml --target-branch ${{ github.event.repository.default_branch }}
