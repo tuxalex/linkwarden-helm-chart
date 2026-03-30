@@ -3,6 +3,36 @@ entries:
   linkwarden:
   - apiVersion: v2
     appVersion: v2.13.1
+    created: "2026-03-30T08:44:54.973424062Z"
+    dependencies:
+    - alias: postgresql
+      condition: postgresql.enabled
+      name: cluster
+      repository: https://cloudnative-pg.github.io/charts
+      version: 0.6.0
+    description: A Helm chart for LinkWarden - Self-hosted collaborative bookmark
+      manager
+    digest: f8be38c25043fec0ebeb61477dc75efb7dcde89ec9589113827de1436137f4b7
+    home: https://github.com/linkwarden/linkwarden
+    icon: https://docs.linkwarden.app/img/logo.png
+    keywords:
+    - linkwarden
+    - bookmark-manager
+    - collaboration
+    maintainers:
+    - name: tuxalex
+      url: https://github.com/tuxalex/linkwarden-helm-chart
+    name: linkwarden
+    sources:
+    - https://github.com/linkwarden/linkwarden
+    - https://github.com/ShivamKumar2002/linkwarden-helm-chart
+    - https://github.com/tuxalex/linkwarden-helm-chart
+    type: application
+    urls:
+    - https://github.com/tuxalex/linkwarden-helm-chart/releases/download/linkwarden-0.2.3/linkwarden-0.2.3.tgz
+    version: 0.2.3
+  - apiVersion: v2
+    appVersion: v2.13.1
     created: "2026-03-27T12:01:08.401552193Z"
     dependencies:
     - alias: postgresql
@@ -31,4 +61,4 @@ entries:
     urls:
     - https://github.com/tuxalex/linkwarden-helm-chart/releases/download/linkwarden-0.2.2/linkwarden-0.2.2.tgz
     version: 0.2.2
-generated: "2026-03-27T12:01:08.40156098Z"
+generated: "2026-03-30T08:44:54.973436375Z"
