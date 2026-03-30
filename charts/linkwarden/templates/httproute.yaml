@@ -6,7 +6,7 @@ metadata:
   name: {{ include "linkwarden.name" . }}-{{ if .Values.httpRoute.redirectHttpToHttps }}https-redirect{{ else }}http{{ end }}
   labels:
     {{- include "linkwarden.labels" . | nindent 4 }}
-  {{- with .Values.httproute.annotations }}
+  {{- with .Values.httpRoute.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}

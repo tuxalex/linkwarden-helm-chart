@@ -290,6 +290,7 @@ ingress:
 # This block is for setting up the httproute for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/gateway/#api-kind-httproute
 httpRoute:
   enabled: false
+  annotations: {}
   redirectHttpToHttps: true
   pathPrefix: /
   parentRefsHttp:

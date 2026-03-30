@@ -253,7 +253,7 @@ postgresql:
 
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
-  enabled: false
+  enabled: true
   className: ""
   annotations: {}
     # kubernetes.io/ingress.class: nginx
@@ -270,13 +270,13 @@ ingress:
 
 # This block is for setting up the httproute for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/gateway/#api-kind-httproute
 httpRoute:
-  enabled: false
+  enabled: true
   redirectHttpToHttps: true
   pathPrefix: /
   parentRefsHttp:
-    - name: gateway
+    - name: eg
   parentRefsHttps:
-    - name: gateway
+    - name: eg
   hostnames:
     - chart-example.local
 
